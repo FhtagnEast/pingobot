@@ -7,6 +7,7 @@ import com.withlava.pingobot.database.model.LifecycleInfo;
 import com.withlava.pingobot.database.model.Notification;
 import com.withlava.pingobot.database.model.Status;
 import com.withlava.pingobot.database.repository.NotificationRepository;
+import org.checkerframework.checker.nullness.Opt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -58,6 +59,7 @@ public class UpdateHandler {
                 -1,
                 inputMessage.getFrom().getId(),
                 inputMessage.getChat().getId(),
+                Optional.empty(),
                 Optional.empty(),
                 HeaderUtils.removeHeader(inputMessage.getText()),
                 new Status(true, false),

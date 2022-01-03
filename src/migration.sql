@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS notifications
     user_id BIGINT,
     chat_id BIGINT,
     update_collector_message_id BIGINT,
+    edit_message_id BIGINT,
     description VARCHAR(255),
     active BOOLEAN,
     deleted BOOLEAN,

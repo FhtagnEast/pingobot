@@ -39,8 +39,8 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 notification.getChatId(),
                 notification.getUpdateCollectorMessageId().orElse(null),
                 notification.getDescription(),
-                notification.getStatus().getActive(),
-                notification.getStatus().getDeleted(),
+                notification.getStatus().isActive(),
+                notification.getStatus().isDeleted(),
                 notification.getDelayInfo().getOnCompletedDelay(),
                 notification.getDelayInfo().getOnUncompletedDelay(),
                 notification.getExecutionInfo().getNextExecutionTime(),
@@ -56,6 +56,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                     "user_id=?," +
                     "chat_id=?," +
                     "update_collector_message_id=?," +
+                    "edit_message_id=?," +
                     "description=?," +
                     "active=?," +
                     "deleted=?," +
@@ -70,14 +71,31 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 notification.getChatId(),
                 notification.getUpdateCollectorMessageId().orElse(null),
                 notification.getDescription(),
-                notification.getStatus().getActive(),
-                notification.getStatus().getDeleted(),
+                notification.getStatus().isActive(),
+                notification.getStatus().isDeleted(),
                 notification.getDelayInfo().getOnCompletedDelay(),
                 notification.getDelayInfo().getOnUncompletedDelay(),
                 notification.getExecutionInfo().getNextExecutionTime(),
                 notification.getExecutionInfo().getLastExecutionTime().orElse(null),
                 notification.getLifecycleInfo().getCreated(),
                 notification.getLifecycleInfo().getMarkedOnDeletion().orElse(null));
+    }
+
+    @Override
+    public List<Notification> allActive() {
+        List<PlainNotification> plainList = jdbcTemplate.query(
+                "SELECT * FROM notifications WHERE active=true",
+                BeanPropertyRowMapper.newInstance(PlainNotification.class));
+        return PlainConverter.convert(plainList);
+    }
+
+    @Override
+    public List<Notification> byUpdateMessageId(long messageId) {
+        List<PlainNotification> plainList = jdbcTemplate.query(
+                "SELECT * FROM notifications WHERE update_collector_message_id=?",
+                BeanPropertyRowMapper.newInstance(PlainNotification.class),
+                messageId);
+        return PlainConverter.convert(plainList);
     }
 
     @Override

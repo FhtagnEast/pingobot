@@ -10,11 +10,11 @@ public class Status {
         this.deleted = deleted;
     }
 
-    public boolean getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public boolean getDeleted() {
+    public boolean isDeleted() {
         return deleted;
     }
 }

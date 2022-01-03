@@ -21,6 +21,7 @@ public final class PlainConverter {
                 plain.getUserId(),
                 plain.getChatId(),
                 Optional.ofNullable(plain.getUpdateCollectorMessageId()),
+                Optional.ofNullable(plain.getEditMessageId()),
                 plain.getDescription(),
                 new Status(
                         plain.isActive(),
