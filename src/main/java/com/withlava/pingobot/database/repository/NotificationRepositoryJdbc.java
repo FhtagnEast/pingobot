@@ -1,8 +1,8 @@
-package com.withlava.pingobot.repository;
+package com.withlava.pingobot.database.repository;
 
 import com.withlava.pingobot.converters.PlainConverter;
-import com.withlava.pingobot.model.Notification;
-import com.withlava.pingobot.repository.dto.PlainNotification;
+import com.withlava.pingobot.database.model.Notification;
+import com.withlava.pingobot.database.repository.dto.PlainNotification;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,7 +22,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     public int create(Notification notification) {
         return jdbcTemplate.update(
                 "INSERT INTO notifications (" +
-                    "id," +
                     "user_id," +
                     "chat_id," +
                     "update_collector_message_id," +
@@ -36,52 +35,49 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                     "created," +
                     "marked_on_deletion) " +
                     "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
-                notification.getId(),
                 notification.getUserId(),
                 notification.getChatId(),
-                notification.getUpdateCollectorMessageId(),
+                notification.getUpdateCollectorMessageId().orElse(null),
                 notification.getDescription(),
                 notification.getStatus().getActive(),
                 notification.getStatus().getDeleted(),
                 notification.getDelayInfo().getOnCompletedDelay(),
                 notification.getDelayInfo().getOnUncompletedDelay(),
                 notification.getExecutionInfo().getNextExecutionTime(),
-                notification.getExecutionInfo().getLastExecutionTime(),
+                notification.getExecutionInfo().getLastExecutionTime().orElse(null),
                 notification.getLifecycleInfo().getCreated(),
-                notification.getLifecycleInfo().getMarkedOnDeletion());
+                notification.getLifecycleInfo().getMarkedOnDeletion().orElse(null));
     }
 
     @Override
     public int update(Notification notification) {
         return jdbcTemplate.update(
-                "UPDATE notifications (" +
-                    "id," +
-                    "user_id," +
-                    "chat_id," +
-                    "update_collector_message_id," +
-                    "description," +
-                    "active," +
-                    "deleted," +
-                    "on_completed_delay," +
-                    "on_uncompleted_delay," +
-                    "next_execution," +
-                    "last_execution," +
-                    "created," +
-                    "marked_on_deletion) " +
-                    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
-                notification.getId(),
+                "UPDATE notifications SET" +
+                    "user_id=?," +
+                    "chat_id=?," +
+                    "update_collector_message_id=?," +
+                    "description=?," +
+                    "active=?," +
+                    "deleted=?," +
+                    "on_completed_delay=?," +
+                    "on_uncompleted_delay=?," +
+                    "next_execution=?," +
+                    "last_execution=?," +
+                    "created=?," +
+                    "marked_on_deletion=?) " +
+                    "WHERE id=?)",
                 notification.getUserId(),
                 notification.getChatId(),
-                notification.getUpdateCollectorMessageId(),
+                notification.getUpdateCollectorMessageId().orElse(null),
                 notification.getDescription(),
                 notification.getStatus().getActive(),
                 notification.getStatus().getDeleted(),
                 notification.getDelayInfo().getOnCompletedDelay(),
                 notification.getDelayInfo().getOnUncompletedDelay(),
                 notification.getExecutionInfo().getNextExecutionTime(),
-                notification.getExecutionInfo().getLastExecutionTime(),
+                notification.getExecutionInfo().getLastExecutionTime().orElse(null),
                 notification.getLifecycleInfo().getCreated(),
-                notification.getLifecycleInfo().getMarkedOnDeletion());
+                notification.getLifecycleInfo().getMarkedOnDeletion().orElse(null));
     }
 
     @Override

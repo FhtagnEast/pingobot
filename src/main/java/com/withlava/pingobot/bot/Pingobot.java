@@ -1,4 +1,4 @@
-package com.withlava.pingobot;
+package com.withlava.pingobot.bot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,24 +7,34 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.util.List;
+
 public class Pingobot extends TelegramLongPollingBot {
     private static final Logger logger = LoggerFactory.getLogger(Pingobot.class);
 
+    private final UpdateHandler updateHandler;
+
     private final String botToken;
 
-    public Pingobot(String botToken) {
+    public Pingobot(UpdateHandler updateHandler, String botToken) {
+        this.updateHandler = updateHandler;
         this.botToken = botToken;
     }
 
     @Override
     public void onUpdateReceived(Update update) {
-        SendMessage message = new SendMessage();
-        message.setChatId(update.getMessage().getChatId());
-        message.setText(update.getMessage().getText());
-        try {
-            execute(message);
-        } catch (TelegramApiException e) {
-            logger.warn("Exception caught while trying to execute message.", e);
+        List<SendMessage> messages = updateHandler.handleUpdate(update);
+
+        if (messages.isEmpty()) {
+            logger.info("Send messages are empty for update {}", update);
+        } else {
+            messages.forEach(m -> {
+                try {
+                    execute(m);
+                } catch (TelegramApiException e) {
+                    logger.warn("Exception caught while trying to execute message.", e);
+                }
+            });
         }
     }
 

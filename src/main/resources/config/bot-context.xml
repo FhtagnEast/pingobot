@@ -6,8 +6,13 @@
 
     <util:property-placeholder location="classpath:application.properties"/>
 
-    <bean id="bot" class="com.withlava.pingobot.Pingobot">
+    <bean id="bot" class="com.withlava.pingobot.bot.Pingobot">
+        <constructor-arg name="updateHandler" ref="updateHandler"/>
         <constructor-arg name="botToken" value="${bot.token}"/>
+    </bean>
+
+    <bean id="updateHandler" class="com.withlava.pingobot.bot.UpdateHandler">
+        <constructor-arg name="notificationRepository" ref="notificationRepository"/>
     </bean>
 
     <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
@@ -20,7 +25,7 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="notificationRepository" class="com.withlava.pingobot.repository.NotificationRepositoryJdbc">
+    <bean id="notificationRepository" class="com.withlava.pingobot.database.repository.NotificationRepositoryJdbc">
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 

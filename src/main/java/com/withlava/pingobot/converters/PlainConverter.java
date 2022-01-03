@@ -1,13 +1,14 @@
 package com.withlava.pingobot.converters;
 
-import com.withlava.pingobot.model.DelayInfo;
-import com.withlava.pingobot.model.ExecutionInfo;
-import com.withlava.pingobot.model.LifecycleInfo;
-import com.withlava.pingobot.model.Notification;
-import com.withlava.pingobot.model.Status;
-import com.withlava.pingobot.repository.dto.PlainNotification;
+import com.withlava.pingobot.database.model.DelayInfo;
+import com.withlava.pingobot.database.model.ExecutionInfo;
+import com.withlava.pingobot.database.model.LifecycleInfo;
+import com.withlava.pingobot.database.model.Notification;
+import com.withlava.pingobot.database.model.Status;
+import com.withlava.pingobot.database.repository.dto.PlainNotification;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class PlainConverter {
@@ -19,7 +20,7 @@ public final class PlainConverter {
                 plain.getId(),
                 plain.getUserId(),
                 plain.getChatId(),
-                plain.getUpdateCollectorMessageId(),
+                Optional.ofNullable(plain.getUpdateCollectorMessageId()),
                 plain.getDescription(),
                 new Status(
                         plain.isActive(),
@@ -29,10 +30,10 @@ public final class PlainConverter {
                         plain.getOnUncompletedDelay()),
                 new ExecutionInfo(
                         plain.getNextExecutionTime(),
-                        plain.getLastExecutionTime()),
+                        Optional.ofNullable(plain.getLastExecutionTime())),
                 new LifecycleInfo(
                         plain.getCreated(),
-                        plain.getMarkedOnDeletion())
+                        Optional.ofNullable(plain.getMarkedOnDeletion()))
         );
     }
 

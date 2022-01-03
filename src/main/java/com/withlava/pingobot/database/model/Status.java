@@ -1,4 +1,4 @@
-package com.withlava.pingobot.model;
+package com.withlava.pingobot.database.model;
 
 public class Status {
     private final boolean active;

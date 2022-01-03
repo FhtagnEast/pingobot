@@ -1,11 +1,13 @@
-package com.withlava.pingobot.model;
+package com.withlava.pingobot.database.model;
+
+import java.util.Optional;
 
 public class Notification {
     private final long id;
 
     private final long userId;
     private final long chatId;
-    private final long updateCollectorMessageId;
+    private final Optional<Long> updateCollectorMessageId;
 
     private final String description;
 
@@ -18,7 +20,7 @@ public class Notification {
             long id,
             long userId,
             long chatId,
-            long updateCollectorMessageId,
+            Optional<Long> updateCollectorMessageId,
             String description,
             Status status,
             DelayInfo delayInfo,
@@ -48,7 +50,7 @@ public class Notification {
         return chatId;
     }
 
-    public long getUpdateCollectorMessageId() {
+    public Optional<Long> getUpdateCollectorMessageId() {
         return updateCollectorMessageId;
     }
 

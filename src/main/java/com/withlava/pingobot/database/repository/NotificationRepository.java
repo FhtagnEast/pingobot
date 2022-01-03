@@ -1,6 +1,6 @@
-package com.withlava.pingobot.repository;
+package com.withlava.pingobot.database.repository;
 
-import com.withlava.pingobot.model.Notification;
+import com.withlava.pingobot.database.model.Notification;
 
 import java.util.List;
 

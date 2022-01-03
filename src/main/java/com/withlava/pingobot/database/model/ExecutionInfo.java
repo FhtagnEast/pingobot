@@ -1,10 +1,12 @@
-package com.withlava.pingobot.model;
+package com.withlava.pingobot.database.model;
+
+import java.util.Optional;
 
 public class ExecutionInfo {
     private final long nextExecutionTime;
-    private final long lastExecutionTime;
+    private final Optional<Long> lastExecutionTime;
 
-    public ExecutionInfo(long nextExecutionTime, long lastExecutionTime) {
+    public ExecutionInfo(long nextExecutionTime, Optional<Long> lastExecutionTime) {
         this.nextExecutionTime = nextExecutionTime;
         this.lastExecutionTime = lastExecutionTime;
     }
@@ -13,7 +15,7 @@ public class ExecutionInfo {
         return nextExecutionTime;
     }
 
-    public long getLastExecutionTime() {
+    public Optional<Long> getLastExecutionTime() {
         return lastExecutionTime;
     }
 }
