@@ -6,6 +6,7 @@ public class PlainNotification {
     private long userId;
     private long chatId;
     private Long updateCollectorMessageId;
+    private Long editMessageId;
 
     private String description;
 
@@ -52,6 +53,14 @@ public class PlainNotification {
 
     public void setUpdateCollectorMessageId(Long updateCollectorMessageId) {
         this.updateCollectorMessageId = updateCollectorMessageId;
+    }
+
+    public Long getEditMessageId() {
+        return editMessageId;
+    }
+
+    public void setEditMessageId(Long editMessageId) {
+        this.editMessageId = editMessageId;
     }
 
     public String getDescription() {

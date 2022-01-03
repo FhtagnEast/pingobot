@@ -10,6 +10,10 @@ public interface NotificationRepository {
 
     int update(Notification notification);
 
+    List<Notification> allActive();
+
+    List<Notification> byUpdateMessageId(long id);
+
     List<Notification> byUserId(long userId);
 
     Notification byId(long id);
