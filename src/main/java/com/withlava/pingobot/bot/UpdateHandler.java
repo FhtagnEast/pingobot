@@ -1,6 +1,6 @@
 package com.withlava.pingobot.bot;
 
-import com.withlava.pingobot.bot.parsing.HeaderExtractor;
+import com.withlava.pingobot.bot.parsing.HeaderUtils;
 import com.withlava.pingobot.database.model.DelayInfo;
 import com.withlava.pingobot.database.model.ExecutionInfo;
 import com.withlava.pingobot.database.model.LifecycleInfo;
@@ -35,7 +35,7 @@ public class UpdateHandler {
         sendMessage.setChatId(inputMessage.getChatId());
         List<SendMessage> sendMessages = new ArrayList<>();
         if (isValid(update)) {
-            String header = HeaderExtractor.extractHeader(inputMessage.getText());
+            String header = HeaderUtils.extractHeader(inputMessage.getText());
             switch (header) {
                 case "/add":
                     sendMessages.add(create(inputMessage, sendMessage));
@@ -59,7 +59,7 @@ public class UpdateHandler {
                 inputMessage.getFrom().getId(),
                 inputMessage.getChat().getId(),
                 Optional.empty(),
-                inputMessage.getText(),
+                HeaderUtils.removeHeader(inputMessage.getText()),
                 new Status(true, false),
                 new DelayInfo(DAY_IN_MILLIS, DAY_IN_MILLIS),
                 new ExecutionInfo(System.currentTimeMillis() + DAY_IN_MILLIS, Optional.empty()),
@@ -81,7 +81,7 @@ public class UpdateHandler {
     }
 
     private SendMessage emptyInputAlert(SendMessage sendMessage) {
-        sendMessage.setText("There are not valid tags in head of the message.");
+        sendMessage.setText("There are not valid tags in the head of the message.");
         return sendMessage;
     }
 
