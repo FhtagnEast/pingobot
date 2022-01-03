@@ -1,11 +1,11 @@
-package com.withlava.pingobot.repository.dto;
+package com.withlava.pingobot.database.repository.dto;
 
 public class PlainNotification {
     private long id;
 
     private long userId;
     private long chatId;
-    private long updateCollectorMessageId;
+    private Long updateCollectorMessageId;
 
     private String description;
 
@@ -16,10 +16,10 @@ public class PlainNotification {
     private long onUncompletedDelay;
 
     private long nextExecutionTime;
-    private long lastExecutionTime;
+    private Long lastExecutionTime;
 
     private long created;
-    private long markedOnDeletion;
+    private Long markedOnDeletion;
 
     public long getId() {
         return id;
@@ -45,11 +45,11 @@ public class PlainNotification {
         this.chatId = chatId;
     }
 
-    public long getUpdateCollectorMessageId() {
+    public Long getUpdateCollectorMessageId() {
         return updateCollectorMessageId;
     }
 
-    public void setUpdateCollectorMessageId(long updateCollectorMessageId) {
+    public void setUpdateCollectorMessageId(Long updateCollectorMessageId) {
         this.updateCollectorMessageId = updateCollectorMessageId;
     }
 
@@ -93,11 +93,11 @@ public class PlainNotification {
         this.onUncompletedDelay = onUncompletedDelay;
     }
 
-    public long getLastExecutionTime() {
+    public Long getLastExecutionTime() {
         return lastExecutionTime;
     }
 
-    public void setLastExecutionTime(long lastExecutionTime) {
+    public void setLastExecutionTime(Long lastExecutionTime) {
         this.lastExecutionTime = lastExecutionTime;
     }
 
@@ -117,11 +117,11 @@ public class PlainNotification {
         this.created = created;
     }
 
-    public long getMarkedOnDeletion() {
+    public Long getMarkedOnDeletion() {
         return markedOnDeletion;
     }
 
-    public void setMarkedOnDeletion(long markedOnDeletion) {
+    public void setMarkedOnDeletion(Long markedOnDeletion) {
         this.markedOnDeletion = markedOnDeletion;
     }
 }

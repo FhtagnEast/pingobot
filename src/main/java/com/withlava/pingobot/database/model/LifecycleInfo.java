@@ -1,10 +1,12 @@
-package com.withlava.pingobot.model;
+package com.withlava.pingobot.database.model;
+
+import java.util.Optional;
 
 public class LifecycleInfo {
     private final long created;
-    private final long markedOnDeletion;
+    private final Optional<Long> markedOnDeletion;
 
-    public LifecycleInfo(long created, long markedOnDeletion) {
+    public LifecycleInfo(long created, Optional<Long> markedOnDeletion) {
         this.created = created;
         this.markedOnDeletion = markedOnDeletion;
     }
@@ -13,7 +15,7 @@ public class LifecycleInfo {
         return created;
     }
 
-    public long getMarkedOnDeletion() {
+    public Optional<Long> getMarkedOnDeletion() {
         return markedOnDeletion;
     }
 }
