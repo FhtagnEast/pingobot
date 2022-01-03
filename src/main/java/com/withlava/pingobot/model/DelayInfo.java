@@ -1,4 +1,4 @@
-package com.withlava.pingobot.notification;
+package com.withlava.pingobot.model;
 
 public class DelayInfo {
     private final long onCompletedDelay;

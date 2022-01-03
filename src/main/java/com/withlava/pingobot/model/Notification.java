@@ -1,6 +1,8 @@
-package com.withlava.pingobot.notification;
+package com.withlava.pingobot.model;
 
 public class Notification {
+    private final long id;
+
     private final long userId;
     private final long chatId;
     private final long updateCollectorMessageId;
@@ -13,6 +15,7 @@ public class Notification {
     private final LifecycleInfo lifecycleInfo;
 
     public Notification(
+            long id,
             long userId,
             long chatId,
             long updateCollectorMessageId,
@@ -22,6 +25,7 @@ public class Notification {
             ExecutionInfo executionInfo,
             LifecycleInfo lifecycleInfo)
     {
+        this.id = id;
         this.userId = userId;
         this.chatId = chatId;
         this.updateCollectorMessageId = updateCollectorMessageId;
@@ -30,6 +34,10 @@ public class Notification {
         this.delayInfo = delayInfo;
         this.executionInfo = executionInfo;
         this.lifecycleInfo = lifecycleInfo;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public long getUserId() {
