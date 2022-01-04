@@ -62,7 +62,10 @@ public class UpdateHandler {
                 HeaderUtils.removeHeader(inputMessage.getText()),
                 new Status(true, false),
                 new DelayInfo(DAY_IN_MILLIS, DAY_IN_MILLIS),
-                new ExecutionInfo(System.currentTimeMillis() + DAY_IN_MILLIS, Optional.empty()),
+                new ExecutionInfo(
+                        System.currentTimeMillis() + DAY_IN_MILLIS,
+                        Optional.empty(),
+                        Optional.empty()),
                 new LifecycleInfo(System.currentTimeMillis(), Optional.empty())
         ));
         sendMessage.setText("Dummy notification with text " + inputMessage.getText() + " created");

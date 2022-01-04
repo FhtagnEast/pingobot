@@ -17,6 +17,7 @@ public class PlainNotification {
 
     private long nextExecutionTime;
     private Long lastExecutionTime;
+    private Long lastCompletedTime;
 
     private long created;
     private Long markedOnDeletion;
@@ -93,6 +94,14 @@ public class PlainNotification {
         this.onUncompletedDelay = onUncompletedDelay;
     }
 
+    public long getNextExecutionTime() {
+        return nextExecutionTime;
+    }
+
+    public void setNextExecutionTime(long nextExecutionTime) {
+        this.nextExecutionTime = nextExecutionTime;
+    }
+
     public Long getLastExecutionTime() {
         return lastExecutionTime;
     }
@@ -101,12 +110,12 @@ public class PlainNotification {
         this.lastExecutionTime = lastExecutionTime;
     }
 
-    public long getNextExecutionTime() {
-        return nextExecutionTime;
+    public Long getLastCompletedTime() {
+        return lastCompletedTime;
     }
 
-    public void setNextExecutionTime(long nextExecutionTime) {
-        this.nextExecutionTime = nextExecutionTime;
+    public void setLastCompletedTime(Long lastCompletedTime) {
+        this.lastCompletedTime = lastCompletedTime;
     }
 
     public long getCreated() {

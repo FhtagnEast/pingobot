@@ -30,7 +30,8 @@ public final class PlainConverter {
                         plain.getOnUncompletedDelay()),
                 new ExecutionInfo(
                         plain.getNextExecutionTime(),
-                        Optional.ofNullable(plain.getLastExecutionTime())),
+                        Optional.ofNullable(plain.getLastExecutionTime()),
+                        Optional.ofNullable(plain.getLastCompletedTime())),
                 new LifecycleInfo(
                         plain.getCreated(),
                         Optional.ofNullable(plain.getMarkedOnDeletion()))
