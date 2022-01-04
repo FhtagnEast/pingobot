@@ -20,7 +20,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
 
     @Override
     public int create(Notification notification) {
-        return jdbcTemplate.update(
+        return jdbcTemplate.update(//TODO: fix join
                 "INSERT INTO notifications (" +
                     "user_id," +
                     "chat_id," +
@@ -37,7 +37,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                     "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
                 notification.getUserId(),
                 notification.getChatId(),
-                notification.getUpdateCollectorMessageId().orElse(null),
+                notification.getUpdateCollectorMessageId(),
                 notification.getDescription(),
                 notification.getStatus().getActive(),
                 notification.getStatus().getDeleted(),
@@ -51,7 +51,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
 
     @Override
     public int update(Notification notification) {
-        return jdbcTemplate.update(
+        return jdbcTemplate.update(//TODO: fix join
                 "UPDATE notifications SET" +
                     "user_id=?," +
                     "chat_id=?," +
@@ -68,7 +68,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                     "WHERE id=?)",
                 notification.getUserId(),
                 notification.getChatId(),
-                notification.getUpdateCollectorMessageId().orElse(null),
+                notification.getUpdateCollectorMessageId(),
                 notification.getDescription(),
                 notification.getStatus().getActive(),
                 notification.getStatus().getDeleted(),
@@ -83,7 +83,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     @Override
     public List<Notification> byUserId(long userId) {
         List<PlainNotification> plainList = jdbcTemplate.query(
-                "SELECT * FROM notifications WHERE user_id=?",
+                "SELECT * FROM notifications WHERE user_id=?", //TODO: fix join
                 BeanPropertyRowMapper.newInstance(PlainNotification.class),
                 userId);
         return PlainConverter.convert(plainList);
@@ -92,7 +92,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     @Override
     public Notification byId(long id) {
         PlainNotification plain = jdbcTemplate.queryForObject(
-                "SELECT * FROM notifications WHERE id=?",
+                "SELECT * FROM notifications WHERE id=?", //TODO: fix join
                 BeanPropertyRowMapper.newInstance(PlainNotification.class),
                 id);
         return PlainConverter.convert(plain);

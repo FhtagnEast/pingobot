@@ -20,7 +20,7 @@ public final class PlainConverter {
                 plain.getId(),
                 plain.getUserId(),
                 plain.getChatId(),
-                Optional.ofNullable(plain.getUpdateCollectorMessageId()),
+                plain.getUpdateCollectorMessageId(),
                 plain.getDescription(),
                 new Status(
                         plain.isActive(),

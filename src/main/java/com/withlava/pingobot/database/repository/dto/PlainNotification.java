@@ -1,11 +1,15 @@
 package com.withlava.pingobot.database.repository.dto;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class PlainNotification {
     private long id;
 
     private long userId;
     private long chatId;
-    private Long updateCollectorMessageId;
+    private List<Long> updateCollectorMessageId;
 
     private String description;
 
@@ -46,12 +50,12 @@ public class PlainNotification {
         this.chatId = chatId;
     }
 
-    public Long getUpdateCollectorMessageId() {
+    public List<Long> getUpdateCollectorMessageId() {
         return updateCollectorMessageId;
     }
 
-    public void setUpdateCollectorMessageId(Long updateCollectorMessageId) {
-        this.updateCollectorMessageId = updateCollectorMessageId;
+    public void setUpdateCollectorMessageId(List<Long> updateCollectorMessageId) {
+        this.updateCollectorMessageId = Collections.unmodifiableList(updateCollectorMessageId);
     }
 
     public String getDescription() {

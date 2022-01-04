@@ -14,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,7 +59,7 @@ public class UpdateHandler {
                 -1,
                 inputMessage.getFrom().getId(),
                 inputMessage.getChat().getId(),
-                Optional.empty(),
+                Collections.emptyList(),
                 HeaderUtils.removeHeader(inputMessage.getText()),
                 new Status(true, false),
                 new DelayInfo(DAY_IN_MILLIS, DAY_IN_MILLIS),
