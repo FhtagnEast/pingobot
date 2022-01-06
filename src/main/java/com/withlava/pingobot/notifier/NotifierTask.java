@@ -2,6 +2,7 @@ package com.withlava.pingobot.notifier;
 
 import com.withlava.pingobot.bot.Pingobot;
 import com.withlava.pingobot.database.model.Notification;
+import com.withlava.pingobot.database.repository.CallbackMessageIdsRepository;
 import com.withlava.pingobot.database.repository.NotificationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,22 +13,28 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NotifierTask implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(NotifierTask.class);
 
     private final NotificationRepository notificationRepository;
 
+    private final CallbackMessageIdsRepository callbackMessageIdsRepository;
+
     private final AbsSender sender;
 
-    public NotifierTask(NotificationRepository notificationRepository, Pingobot sender) {
+    public NotifierTask(NotificationRepository notificationRepository, CallbackMessageIdsRepository callbackMessageIdsRepository, Pingobot sender) {
         this.notificationRepository = notificationRepository;
+        this.callbackMessageIdsRepository = callbackMessageIdsRepository;
         this.sender = sender;
     }
 
     @Override
     public void run() {
+        notifyAllUsers();
+    }
+
+    private void notifyAllUsers() {
         List<Notification> activeNotifications = notificationRepository.allActive();
         List<SendMessage> sendMessages = new ArrayList<>();
         long currentTimestamp = System.currentTimeMillis();
@@ -43,7 +50,7 @@ public class NotifierTask implements Runnable {
                     message.setText(an.getDescription());
                     try {
                         Message sentMessage = sender.execute(message);
-                        notificationRepository.update(an.withCollectorMessageId(sentMessage.getMessageId()));
+                        callbackMessageIdsRepository.addUpdateCollectorMessageId(sentMessage.getMessageId());
                     } catch (TelegramApiException e) {
                         logger.warn("Exception caught while trying to execute message {}.", message, e);
                     }

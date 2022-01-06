@@ -3,8 +3,6 @@ CREATE TABLE IF NOT EXISTS notifications
     id BIGSERIAL PRIMARY KEY NOT NULL,
     user_id BIGINT,
     chat_id BIGINT,
-    update_collector_message_id BIGINT,
---     edit_message_id BIGINT,
     description VARCHAR(255),
     active BOOLEAN,
     deleted BOOLEAN,
@@ -20,5 +18,12 @@ CREATE TABLE IF NOT EXISTS edit_message_ids
 (
     notification_id BIGINT,
     edit_message_id BIGINT,
+    FOREIGN KEY (notification_id) REFERENCES notifications (id)
+);
+
+CREATE TABLE IF NOT EXISTS update_collector_message_ids
+(
+    notification_id BIGINT,
+    update_collector_message_id BIGINT,
     FOREIGN KEY (notification_id) REFERENCES notifications (id)
 );

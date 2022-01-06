@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class NotificationRepositoryJdbc implements NotificationRepository {
+public class JdbcNotificationRepository implements NotificationRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public NotificationRepositoryJdbc(JdbcTemplate jdbcTemplate) {
+    public JdbcNotificationRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -24,7 +24,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "INSERT INTO notifications (" +
                     "user_id," +
                     "chat_id," +
-                    "update_collector_message_id," +
                     "description," +
                     "active," +
                     "deleted," +
@@ -32,12 +31,12 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                     "on_uncompleted_delay," +
                     "next_execution," +
                     "last_execution," +
+                    "last_completed," +
                     "created," +
                     "marked_on_deletion) " +
                     "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
                 notification.getUserId(),
                 notification.getChatId(),
-                notification.getUpdateCollectorMessageId().orElse(null),
                 notification.getDescription(),
                 notification.getStatus().isActive(),
                 notification.getStatus().isDeleted(),
@@ -55,8 +54,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "UPDATE notifications SET" +
                     "user_id=?," +
                     "chat_id=?," +
-                    "update_collector_message_id=?," +
-                    "edit_message_id=?," +
                     "description=?," +
                     "active=?," +
                     "deleted=?," +
@@ -64,12 +61,12 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                     "on_uncompleted_delay=?," +
                     "next_execution=?," +
                     "last_execution=?," +
+                    "last_completed=?" +
                     "created=?," +
                     "marked_on_deletion=?) " +
                     "WHERE id=?)",
                 notification.getUserId(),
                 notification.getChatId(),
-                notification.getUpdateCollectorMessageId().orElse(null),
                 notification.getDescription(),
                 notification.getStatus().isActive(),
                 notification.getStatus().isDeleted(),
@@ -77,6 +74,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 notification.getDelayInfo().getOnUncompletedDelay(),
                 notification.getExecutionInfo().getNextExecutionTime(),
                 notification.getExecutionInfo().getLastExecutionTime().orElse(null),
+                notification.getExecutionInfo().getLastCompletedTime().orElse(null),
                 notification.getLifecycleInfo().getCreated(),
                 notification.getLifecycleInfo().getMarkedOnDeletion().orElse(null));
     }

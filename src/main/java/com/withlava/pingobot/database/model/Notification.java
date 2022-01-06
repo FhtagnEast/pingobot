@@ -7,8 +7,6 @@ public class Notification {
 
     private final long userId;
     private final long chatId;
-    private final Optional<Long> updateCollectorMessageId;
-    private final Optional<Long> editMessageId;
 
     private final String description;
 
@@ -21,8 +19,6 @@ public class Notification {
             long id,
             long userId,
             long chatId,
-            Optional<Long> updateCollectorMessageId,
-            Optional<Long> editMessageId,
             String description,
             Status status,
             DelayInfo delayInfo,
@@ -32,8 +28,6 @@ public class Notification {
         this.id = id;
         this.userId = userId;
         this.chatId = chatId;
-        this.updateCollectorMessageId = updateCollectorMessageId;
-        this.editMessageId = editMessageId;
         this.description = description;
         this.status = status;
         this.delayInfo = delayInfo;
@@ -41,33 +35,17 @@ public class Notification {
         this.lifecycleInfo = lifecycleInfo;
     }
 
-    public Notification withCollectorMessageId(long messageId) {
-        return new Notification(
-                id,
-                userId,
-                chatId,
-                Optional.of(messageId),
-                editMessageId,
-                description,
-                status,
-                delayInfo,
-                executionInfo,
-                lifecycleInfo
-        );
-    }
-
     public Notification completed() {
         return new Notification(
                 id,
                 userId,
                 chatId,
-                updateCollectorMessageId,
-                editMessageId,
                 description,
                 status,
                 delayInfo,
                 new ExecutionInfo(
                         executionInfo.getNextExecutionTime() + delayInfo.getOnCompletedDelay(),
+                        Optional.of(executionInfo.getNextExecutionTime()),
                         Optional.of(executionInfo.getNextExecutionTime())),
                 lifecycleInfo
         );
@@ -78,14 +56,13 @@ public class Notification {
                 id,
                 userId,
                 chatId,
-                updateCollectorMessageId,
-                editMessageId,
                 description,
                 status,
                 delayInfo,
                 new ExecutionInfo(
                         executionInfo.getNextExecutionTime() + delayInfo.getOnUncompletedDelay(),
-                        Optional.of(executionInfo.getNextExecutionTime())),
+                        Optional.of(executionInfo.getNextExecutionTime()),
+                        executionInfo.getLastCompletedTime()),
                 lifecycleInfo
         );
     }
@@ -100,10 +77,6 @@ public class Notification {
 
     public long getChatId() {
         return chatId;
-    }
-
-    public Optional<Long> getUpdateCollectorMessageId() {
-        return updateCollectorMessageId;
     }
 
     public String getDescription() {
