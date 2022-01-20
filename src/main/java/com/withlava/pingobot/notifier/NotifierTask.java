@@ -18,13 +18,10 @@ public class NotifierTask implements Runnable {
 
     private final NotificationRepository notificationRepository;
 
-//    private final CallbackMessageIdsRepository callbackMessageIdsRepository;
-
     private final AbsSender sender;
 
     public NotifierTask(NotificationRepository notificationRepository, Pingobot sender) {
         this.notificationRepository = notificationRepository;
-//        this.callbackMessageIdsRepository = callbackMessageIdsRepository;
         this.sender = sender;
     }
 
@@ -51,7 +48,6 @@ public class NotifierTask implements Runnable {
                     try {
                         //TODO: Send message could be extracted to a single class to make this logic unified with update handler
                         Message sentMessage = sender.execute(message);
-//                        callbackMessageIdsRepository.addUpdateCollectorMessageId(an.getId(), sentMessage.getMessageId());
                     } catch (TelegramApiException e) {
                         logger.warn("Exception caught while trying to execute message {}.", message, e);
                     }

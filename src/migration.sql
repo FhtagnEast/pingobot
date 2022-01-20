@@ -21,17 +21,3 @@ CREATE TABLE IF NOT EXISTS notification_history
     action VARCHAR(255),
     FOREIGN KEY (notification_id) REFERENCES notifications (id)
 )
-
--- CREATE TABLE IF NOT EXISTS edit_message_ids
--- (
---     notification_id BIGINT,
---     edit_message_id BIGINT,
---     FOREIGN KEY (notification_id) REFERENCES notifications (id)
--- );
---
--- CREATE TABLE IF NOT EXISTS update_collector_message_ids
--- (
---     notification_id BIGINT,
---     update_collector_message_id BIGINT,
---     FOREIGN KEY (notification_id) REFERENCES notifications (id)
--- );

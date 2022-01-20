@@ -1,6 +1,7 @@
 package com.withlava.pingobot.database.repository.dto;
 
 
+@SuppressWarnings({"ConstructorWithTooManyParameters", "BooleanParameter"})
 public class Notification {
     private final long id;
 
@@ -17,7 +18,6 @@ public class Notification {
 
     private final long nextExecutionTime;
     private final Long lastExecutionTime;
-//    private final Long lastCompletedTime;
 
     private final long created;
     private final Long markedOnDeletion;
@@ -33,7 +33,6 @@ public class Notification {
             long onUncompletedDelay,
             long nextExecutionTime,
             Long lastExecutionTime,
-//            Long lastCompletedTime,
             long created,
             Long markedOnDeletion) {
         this.id = id;
@@ -46,7 +45,6 @@ public class Notification {
         this.onUncompletedDelay = onUncompletedDelay;
         this.nextExecutionTime = nextExecutionTime;
         this.lastExecutionTime = lastExecutionTime;
-//        this.lastCompletedTime = lastCompletedTime;
         this.created = created;
         this.markedOnDeletion = markedOnDeletion;
     }
@@ -90,10 +88,6 @@ public class Notification {
     public Long getLastExecutionTime() {
         return lastExecutionTime;
     }
-
-//    public Long getLastCompletedTime() {
-//        return lastCompletedTime;
-//    }
 
     public long getCreated() {
         return created;
