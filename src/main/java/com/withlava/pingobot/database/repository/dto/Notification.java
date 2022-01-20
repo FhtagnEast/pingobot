@@ -13,9 +13,12 @@ public class Notification {
     private final boolean active;
     private final boolean deleted;
 
-    private final long onCompletedDelay;
+    //TODO: you can store cron schedule here
+    private final long onCompletedDelay; //add ms to name
     private final long onUncompletedDelay;
 
+    //TODO: try extract this shit to kind of log
+    // it depends on delay
     private final long nextExecutionTime;
     private final Long lastExecutionTime;
 

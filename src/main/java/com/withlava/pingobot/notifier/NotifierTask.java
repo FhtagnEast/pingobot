@@ -31,6 +31,7 @@ public class NotifierTask implements Runnable {
     }
 
     private void notifyAllUsers() {
+        logger.info("Notify started!");
         List<Notification> activeNotifications = notificationRepository.allActive();
         List<SendMessage> sendMessages = new ArrayList<>();
         long currentTimestamp = System.currentTimeMillis();
