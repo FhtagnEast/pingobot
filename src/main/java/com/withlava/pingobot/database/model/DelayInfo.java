@@ -1,7 +1,8 @@
 package com.withlava.pingobot.database.model;
 
 public class DelayInfo {
-    private final long onCompletedDelay;
+    //TODO: you can store cron schedule here
+    private final long onCompletedDelay; //add ms to name
     private final long onUncompletedDelay;
 
 

@@ -20,21 +20,23 @@ public class JdbcNotificationRepository implements NotificationRepository {
 
     @Override
     public int create(Notification notification) {
+        String sqlRequest = "INSERT INTO notifications (" +
+                "user_id," +
+                "chat_id," +
+                "description," +
+                "active," +
+                "deleted," +
+                "on_completed_delay," +
+                "on_uncompleted_delay," +
+                "next_execution," +
+                "last_execution," +
+                "last_completed," +
+                "created," +
+                "marked_on_deletion) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+
         return jdbcTemplate.update(
-                "INSERT INTO notifications (" +
-                    "user_id," +
-                    "chat_id," +
-                    "description," +
-                    "active," +
-                    "deleted," +
-                    "on_completed_delay," +
-                    "on_uncompleted_delay," +
-                    "next_execution," +
-                    "last_execution," +
-                    "last_completed," +
-                    "created," +
-                    "marked_on_deletion) " +
-                    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)",
+                sqlRequest,
                 notification.getUserId(),
                 notification.getChatId(),
                 notification.getDescription(),
@@ -49,22 +51,25 @@ public class JdbcNotificationRepository implements NotificationRepository {
     }
 
     @Override
+    //TODO: Update fields separately?
     public int update(Notification notification) {
+        String sqlRequest = "UPDATE notifications SET" +
+                "user_id=?," +
+                "chat_id=?," +
+                "description=?," +
+                "active=?," +
+                "deleted=?," +
+                "on_completed_delay=?," +
+                "on_uncompleted_delay=?," +
+                "next_execution=?," +
+                "last_execution=?," +
+                "last_completed=?" +
+                "created=?," +
+                "marked_on_deletion=?) " +
+                "WHERE id=?)";
+
         return jdbcTemplate.update(
-                "UPDATE notifications SET" +
-                    "user_id=?," +
-                    "chat_id=?," +
-                    "description=?," +
-                    "active=?," +
-                    "deleted=?," +
-                    "on_completed_delay=?," +
-                    "on_uncompleted_delay=?," +
-                    "next_execution=?," +
-                    "last_execution=?," +
-                    "last_completed=?" +
-                    "created=?," +
-                    "marked_on_deletion=?) " +
-                    "WHERE id=?)",
+                sqlRequest,
                 notification.getUserId(),
                 notification.getChatId(),
                 notification.getDescription(),
@@ -80,17 +85,34 @@ public class JdbcNotificationRepository implements NotificationRepository {
     }
 
     @Override
+    // User id?
     public List<Notification> allActive() {
+        String sqlRequest = "SELECT * FROM notifications WHERE active=true";
+
         List<PlainNotification> plainList = jdbcTemplate.query(
-                "SELECT * FROM notifications WHERE active=true",
+                sqlRequest,
                 BeanPropertyRowMapper.newInstance(PlainNotification.class));
         return PlainConverter.convert(plainList);
     }
 
     @Override
+    public List<Notification> addActiveByUserId(long userId) {
+        String sqlRequest = "SELECT * FROM notifications WHERE active=true AND user_id=?";
+
+        List<PlainNotification> plainNotifications = jdbcTemplate.query(
+                sqlRequest,
+                BeanPropertyRowMapper.newInstance(PlainNotification.class),
+                userId);
+
+        return PlainConverter.convert(plainNotifications);
+    }
+
+    @Override
     public List<Notification> byUpdateMessageId(long messageId) {
+        String sqlRequest = "SELECT * FROM notifications WHERE update_collector_message_id=?";
+
         List<PlainNotification> plainList = jdbcTemplate.query(
-                "SELECT * FROM notifications WHERE update_collector_message_id=?",
+                sqlRequest,
                 BeanPropertyRowMapper.newInstance(PlainNotification.class),
                 messageId);
         return PlainConverter.convert(plainList);
@@ -98,8 +120,11 @@ public class JdbcNotificationRepository implements NotificationRepository {
 
     @Override
     public List<Notification> byUserId(long userId) {
+        String sqlRequest = "SELECT * FROM notifications WHERE user_id=?";
+
+        //TODO: Could it be immutable?
         List<PlainNotification> plainList = jdbcTemplate.query(
-                "SELECT * FROM notifications WHERE user_id=?",
+                sqlRequest,
                 BeanPropertyRowMapper.newInstance(PlainNotification.class),
                 userId);
         return PlainConverter.convert(plainList);
@@ -107,8 +132,10 @@ public class JdbcNotificationRepository implements NotificationRepository {
 
     @Override
     public Notification byId(long id) {
+        String sqlRequest = "SELECT * FROM notifications WHERE id=?";
+
         PlainNotification plain = jdbcTemplate.queryForObject(
-                "SELECT * FROM notifications WHERE id=?",
+                sqlRequest,
                 BeanPropertyRowMapper.newInstance(PlainNotification.class),
                 id);
         return PlainConverter.convert(plain);

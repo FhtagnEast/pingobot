@@ -2,7 +2,9 @@ package com.withlava.pingobot.database.model;
 
 import java.util.Optional;
 
+//TODO: try extract this shit to kind of log
 public class ExecutionInfo {
+    // it depends on delay
     private final long nextExecutionTime;
     private final Optional<Long> lastExecutionTime;
     private final Optional<Long> lastCompletedTime;

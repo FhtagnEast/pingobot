@@ -40,6 +40,7 @@ public class NotifierTask implements Runnable {
         long currentTimestamp = System.currentTimeMillis();
         activeNotifications.stream()
                 .filter(an -> {
+                    //TODO: Do it on database side
                     return !an.getStatus().isDeleted()
                             && an.getStatus().isActive()
                             && an.getExecutionInfo().getNextExecutionTime() < currentTimestamp;
@@ -49,8 +50,9 @@ public class NotifierTask implements Runnable {
                     message.setChatId(an.getChatId());
                     message.setText(an.getDescription());
                     try {
+                        //TODO: Send message could be extracted to a single class to make this logic unified with update handler
                         Message sentMessage = sender.execute(message);
-                        callbackMessageIdsRepository.addUpdateCollectorMessageId(sentMessage.getMessageId());
+                        callbackMessageIdsRepository.addUpdateCollectorMessageId(an.getId(), sentMessage.getMessageId());
                     } catch (TelegramApiException e) {
                         logger.warn("Exception caught while trying to execute message {}.", message, e);
                     }
