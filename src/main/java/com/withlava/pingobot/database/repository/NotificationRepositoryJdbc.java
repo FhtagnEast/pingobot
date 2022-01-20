@@ -26,8 +26,8 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "deleted," +
                 "on_completed_delay," +
                 "on_uncompleted_delay," +
-                "next_execution," +
-                "last_execution," +
+                "next_execution_time," +
+                "last_execution_time," +
                 "created," +
                 "marked_on_deletion) " +
                 "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
@@ -58,8 +58,8 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "deleted=?," +
                 "on_completed_delay=?," +
                 "on_uncompleted_delay=?," +
-                "next_execution=?," +
-                "last_execution=?," +
+                "next_execution_time=?," +
+                "last_execution_time=?," +
                 "created=?," +
                 "marked_on_deletion=?) " +
                 "WHERE id=?)";
