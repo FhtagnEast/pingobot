@@ -29,9 +29,9 @@
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
-    <bean id="callbackMessageIdsRepository" class="com.withlava.pingobot.database.repository.JdbcCallbackMessageIdsRepository">
-        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
-    </bean>
+<!--    <bean id="callbackMessageIdsRepository" class="com.withlava.pingobot.database.repository.JdbcCallbackMessageIdsRepository">-->
+<!--        <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>-->
+<!--    </bean>-->
 
     <bean id="notifierWorker" class="com.withlava.pingobot.notifier.NotifierWorker" init-method="start" destroy-method="stop">
         <constructor-arg name="notifierTask" ref="notifierTask"/>
@@ -39,7 +39,7 @@
 
     <bean id="notifierTask" class="com.withlava.pingobot.notifier.NotifierTask">
         <constructor-arg name="notificationRepository" ref="notificationRepository"/>
-        <constructor-arg name="callbackMessageIdsRepository" ref="callbackMessageIdsRepository"/>
+<!--        <constructor-arg name="callbackMessageIdsRepository" ref="callbackMessageIdsRepository"/>-->
         <constructor-arg name="sender" ref="bot"/>
     </bean>
 

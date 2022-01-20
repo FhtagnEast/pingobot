@@ -2,7 +2,6 @@ package com.withlava.pingobot.notifier;
 
 import com.withlava.pingobot.bot.Pingobot;
 import com.withlava.pingobot.database.model.Notification;
-import com.withlava.pingobot.database.repository.CallbackMessageIdsRepository;
 import com.withlava.pingobot.database.repository.NotificationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +18,13 @@ public class NotifierTask implements Runnable {
 
     private final NotificationRepository notificationRepository;
 
-    private final CallbackMessageIdsRepository callbackMessageIdsRepository;
+//    private final CallbackMessageIdsRepository callbackMessageIdsRepository;
 
     private final AbsSender sender;
 
-    public NotifierTask(NotificationRepository notificationRepository, CallbackMessageIdsRepository callbackMessageIdsRepository, Pingobot sender) {
+    public NotifierTask(NotificationRepository notificationRepository, Pingobot sender) {
         this.notificationRepository = notificationRepository;
-        this.callbackMessageIdsRepository = callbackMessageIdsRepository;
+//        this.callbackMessageIdsRepository = callbackMessageIdsRepository;
         this.sender = sender;
     }
 
@@ -52,7 +51,7 @@ public class NotifierTask implements Runnable {
                     try {
                         //TODO: Send message could be extracted to a single class to make this logic unified with update handler
                         Message sentMessage = sender.execute(message);
-                        callbackMessageIdsRepository.addUpdateCollectorMessageId(an.getId(), sentMessage.getMessageId());
+//                        callbackMessageIdsRepository.addUpdateCollectorMessageId(an.getId(), sentMessage.getMessageId());
                     } catch (TelegramApiException e) {
                         logger.warn("Exception caught while trying to execute message {}.", message, e);
                     }
