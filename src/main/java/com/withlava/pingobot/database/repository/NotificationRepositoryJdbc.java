@@ -113,7 +113,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     public List<Notification> byUserId(long userId) {
         String sqlRequest = "SELECT * FROM notifications WHERE user_id=?";
 
-        //TODO: Could it be immutable?
         return jdbcTemplate.query(
                 sqlRequest,
                 DataClassRowMapper.newInstance(Notification.class),

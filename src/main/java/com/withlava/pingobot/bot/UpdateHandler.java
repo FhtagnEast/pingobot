@@ -65,7 +65,6 @@ public class UpdateHandler {
                 DAY_IN_MILLIS,
                 System.currentTimeMillis() + DAY_IN_MILLIS,
                 null,
-//                null,
                 System.currentTimeMillis(),
                 null
         ));
@@ -85,12 +84,12 @@ public class UpdateHandler {
         }).collect(Collectors.toList());
     }
 
-    private SendMessage emptyInputAlert(SendMessage sendMessage) {
+    private static SendMessage emptyInputAlert(SendMessage sendMessage) {
         sendMessage.setText("There are not valid tags in the head of the message.");
         return sendMessage;
     }
 
-    private boolean isValid(Update update) {
+    private static boolean isValid(Update update) {
         if(!update.getMessage().getChat().isUserChat()) {
             logger.info("Message from invalid chat type (non-private).");
             return false;
