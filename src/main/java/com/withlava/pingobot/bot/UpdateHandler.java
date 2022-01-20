@@ -38,6 +38,9 @@ public class UpdateHandler {
             String header = HeaderUtils.extractHeader(inputMessage.getText());
             switch (header) {
                 case "/add":
+                    // TODO: Default interval is: 1 week for completed, 1 day for incompleted
+                    // Change completed, change incompleted
+                    // 1 day, 1 week, 1 month, custom
                     sendMessages.add(create(inputMessage, sendMessage));
                     break;
                 case "/all":
@@ -45,6 +48,7 @@ public class UpdateHandler {
                     break;
                 default:
                     sendMessages.add(emptyInputAlert(sendMessage));
+                    break;
             }
         } else {
             sendMessage.setText("You trying to use bot from invalid chat type. The bot works only in private chats.");
@@ -53,6 +57,7 @@ public class UpdateHandler {
         return sendMessages;
     }
 
+    //TODO: return message text
     private SendMessage create(Message inputMessage, SendMessage sendMessage) {
         notificationRepository.create(new Notification(
                 -1,
@@ -72,6 +77,7 @@ public class UpdateHandler {
     }
 
     private List<SendMessage> getAll(Message inputMessage) {
+        //TODO: Inline keyboard: mark active/inactive, change text, change message
         long chatId = inputMessage.getChatId();
         List<Notification> existingNotifications = notificationRepository.byUserId(inputMessage.getFrom().getId());
         return existingNotifications.stream().map(en -> {

@@ -10,6 +10,7 @@ public class Notification {
 
     private final String description;
 
+    // the sameas filter of deletion
     private final Status status;
     private final DelayInfo delayInfo;
     private final ExecutionInfo executionInfo;

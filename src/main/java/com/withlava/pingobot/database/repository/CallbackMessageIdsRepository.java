@@ -4,15 +4,15 @@ import java.util.List;
 
 public interface CallbackMessageIdsRepository {
 
-    int addUpdateCollectorMessageId(int messageId);
+    int addUpdateCollectorMessageId(Long notificationId, Integer messageId);
 
-    int addEditMessageId(int messageId);
+    int addEditMessageId(Long notificationId, Integer messageId);
 
     List<Integer> getAllUpdateCollectorMessageId(Long notificationId);
 
     List<Integer> getAllEditMessageId(Long notificationId);
 
-    Long getNotificationIdByUpdateCollectorMessageId(Long updateCollectorMssageId);
+    Long getNotificationIdByUpdateCollectorMessageId(Integer updateCollectorMssageId);
 
-    Long getNotificationIdByEditMessageId(Long editMessageId);
+    Long getNotificationIdByEditMessageId(Integer editMessageId);
 }

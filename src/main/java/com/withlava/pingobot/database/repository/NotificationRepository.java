@@ -12,6 +12,8 @@ public interface NotificationRepository {
 
     List<Notification> allActive();
 
+    List<Notification> addActiveByUserId(long userId);
+
     List<Notification> byUpdateMessageId(long id);
 
     List<Notification> byUserId(long userId);

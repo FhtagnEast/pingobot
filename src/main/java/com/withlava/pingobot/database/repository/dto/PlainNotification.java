@@ -1,7 +1,5 @@
 package com.withlava.pingobot.database.repository.dto;
 
-import java.util.Collections;
-import java.util.List;
 
 public class PlainNotification {
     private long id;
