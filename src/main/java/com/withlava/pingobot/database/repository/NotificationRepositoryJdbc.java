@@ -1,20 +1,18 @@
 package com.withlava.pingobot.database.repository;
 
-import com.withlava.pingobot.converters.PlainConverter;
-import com.withlava.pingobot.database.model.Notification;
-import com.withlava.pingobot.database.repository.dto.PlainNotification;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import com.withlava.pingobot.database.repository.dto.Notification;
+import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public class JdbcNotificationRepository implements NotificationRepository {
+public class NotificationRepositoryJdbc implements NotificationRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcNotificationRepository(JdbcTemplate jdbcTemplate) {
+    public NotificationRepositoryJdbc(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -30,24 +28,23 @@ public class JdbcNotificationRepository implements NotificationRepository {
                 "on_uncompleted_delay," +
                 "next_execution," +
                 "last_execution," +
-                "last_completed," +
                 "created," +
                 "marked_on_deletion) " +
-                "VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+                "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
         return jdbcTemplate.update(
                 sqlRequest,
                 notification.getUserId(),
                 notification.getChatId(),
                 notification.getDescription(),
-                notification.getStatus().isActive(),
-                notification.getStatus().isDeleted(),
-                notification.getDelayInfo().getOnCompletedDelay(),
-                notification.getDelayInfo().getOnUncompletedDelay(),
-                notification.getExecutionInfo().getNextExecutionTime(),
-                notification.getExecutionInfo().getLastExecutionTime().orElse(null),
-                notification.getLifecycleInfo().getCreated(),
-                notification.getLifecycleInfo().getMarkedOnDeletion().orElse(null));
+                notification.isActive(),
+                notification.isDeleted(),
+                notification.getOnCompletedDelay(),
+                notification.getOnUncompletedDelay(),
+                notification.getNextExecutionTime(),
+                notification.getLastExecutionTime(),
+                notification.getCreated(),
+                notification.getMarkedOnDeletion());
     }
 
     @Override
@@ -63,7 +60,6 @@ public class JdbcNotificationRepository implements NotificationRepository {
                 "on_uncompleted_delay=?," +
                 "next_execution=?," +
                 "last_execution=?," +
-                "last_completed=?" +
                 "created=?," +
                 "marked_on_deletion=?) " +
                 "WHERE id=?)";
@@ -73,15 +69,14 @@ public class JdbcNotificationRepository implements NotificationRepository {
                 notification.getUserId(),
                 notification.getChatId(),
                 notification.getDescription(),
-                notification.getStatus().isActive(),
-                notification.getStatus().isDeleted(),
-                notification.getDelayInfo().getOnCompletedDelay(),
-                notification.getDelayInfo().getOnUncompletedDelay(),
-                notification.getExecutionInfo().getNextExecutionTime(),
-                notification.getExecutionInfo().getLastExecutionTime().orElse(null),
-                notification.getExecutionInfo().getLastCompletedTime().orElse(null),
-                notification.getLifecycleInfo().getCreated(),
-                notification.getLifecycleInfo().getMarkedOnDeletion().orElse(null));
+                notification.isActive(),
+                notification.isDeleted(),
+                notification.getOnCompletedDelay(),
+                notification.getOnUncompletedDelay(),
+                notification.getNextExecutionTime(),
+                notification.getLastExecutionTime(),
+                notification.getCreated(),
+                notification.getMarkedOnDeletion());
     }
 
     @Override
@@ -89,33 +84,29 @@ public class JdbcNotificationRepository implements NotificationRepository {
     public List<Notification> allActive() {
         String sqlRequest = "SELECT * FROM notifications WHERE active=true";
 
-        List<PlainNotification> plainList = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 sqlRequest,
-                BeanPropertyRowMapper.newInstance(PlainNotification.class));
-        return PlainConverter.convert(plainList);
+                DataClassRowMapper.newInstance(Notification.class));
     }
 
     @Override
     public List<Notification> addActiveByUserId(long userId) {
         String sqlRequest = "SELECT * FROM notifications WHERE active=true AND user_id=?";
 
-        List<PlainNotification> plainNotifications = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 sqlRequest,
-                BeanPropertyRowMapper.newInstance(PlainNotification.class),
+                DataClassRowMapper.newInstance(Notification.class),
                 userId);
-
-        return PlainConverter.convert(plainNotifications);
     }
 
     @Override
     public List<Notification> byUpdateMessageId(long messageId) {
         String sqlRequest = "SELECT * FROM notifications WHERE update_collector_message_id=?";
 
-        List<PlainNotification> plainList = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 sqlRequest,
-                BeanPropertyRowMapper.newInstance(PlainNotification.class),
+                DataClassRowMapper.newInstance(Notification.class),
                 messageId);
-        return PlainConverter.convert(plainList);
     }
 
     @Override
@@ -123,21 +114,20 @@ public class JdbcNotificationRepository implements NotificationRepository {
         String sqlRequest = "SELECT * FROM notifications WHERE user_id=?";
 
         //TODO: Could it be immutable?
-        List<PlainNotification> plainList = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 sqlRequest,
-                BeanPropertyRowMapper.newInstance(PlainNotification.class),
+                DataClassRowMapper.newInstance(Notification.class),
                 userId);
-        return PlainConverter.convert(plainList);
     }
 
     @Override
     public Notification byId(long id) {
         String sqlRequest = "SELECT * FROM notifications WHERE id=?";
 
-        PlainNotification plain = jdbcTemplate.queryForObject(
+        return jdbcTemplate.queryForObject(
                 sqlRequest,
-                BeanPropertyRowMapper.newInstance(PlainNotification.class),
+                DataClassRowMapper.newInstance(Notification.class),
                 id);
-        return PlainConverter.convert(plain);
     }
 }
+

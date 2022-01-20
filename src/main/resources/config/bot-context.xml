@@ -25,7 +25,7 @@
         <property name="password" value="${db.password}"/>
     </bean>
 
-    <bean id="notificationRepository" class="com.withlava.pingobot.database.repository.JdbcNotificationRepository">
+    <bean id="notificationRepository" class="com.withlava.pingobot.database.repository.NotificationRepositoryJdbc">
         <constructor-arg name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
 
