@@ -90,16 +90,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     }
 
     @Override
-    public List<Notification> addActiveByUserId(long userId) {
-        String sqlRequest = "SELECT * FROM notifications WHERE active=true AND user_id=?";
-
-        return jdbcTemplate.query(
-                sqlRequest,
-                DataClassRowMapper.newInstance(Notification.class),
-                userId);
-    }
-
-    @Override
     public List<Notification> byUpdateMessageId(long messageId) {
         String sqlRequest = "SELECT * FROM notifications WHERE update_collector_message_id=?";
 
