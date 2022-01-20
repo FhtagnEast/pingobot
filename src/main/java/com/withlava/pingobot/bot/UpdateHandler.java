@@ -1,12 +1,8 @@
 package com.withlava.pingobot.bot;
 
 import com.withlava.pingobot.bot.parsing.HeaderUtils;
-import com.withlava.pingobot.database.model.DelayInfo;
-import com.withlava.pingobot.database.model.ExecutionInfo;
-import com.withlava.pingobot.database.model.LifecycleInfo;
-import com.withlava.pingobot.database.model.Notification;
-import com.withlava.pingobot.database.model.Status;
 import com.withlava.pingobot.database.repository.NotificationRepository;
+import com.withlava.pingobot.database.repository.dto.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,7 +11,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class UpdateHandler {
@@ -64,13 +59,15 @@ public class UpdateHandler {
                 inputMessage.getFrom().getId(),
                 inputMessage.getChat().getId(),
                 HeaderUtils.removeHeader(inputMessage.getText()),
-                new Status(true, false),
-                new DelayInfo(DAY_IN_MILLIS, DAY_IN_MILLIS),
-                new ExecutionInfo(
-                        System.currentTimeMillis() + DAY_IN_MILLIS,
-                        Optional.empty(),
-                        Optional.empty()),
-                new LifecycleInfo(System.currentTimeMillis(), Optional.empty())
+                true,
+                false,
+                DAY_IN_MILLIS,
+                DAY_IN_MILLIS,
+                System.currentTimeMillis() + DAY_IN_MILLIS,
+                null,
+//                null,
+                System.currentTimeMillis(),
+                null
         ));
         sendMessage.setText("Dummy notification with text " + inputMessage.getText() + " created");
         return sendMessage;

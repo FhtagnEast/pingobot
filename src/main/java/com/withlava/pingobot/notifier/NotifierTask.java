@@ -1,8 +1,8 @@
 package com.withlava.pingobot.notifier;
 
 import com.withlava.pingobot.bot.Pingobot;
-import com.withlava.pingobot.database.model.Notification;
 import com.withlava.pingobot.database.repository.NotificationRepository;
+import com.withlava.pingobot.database.repository.dto.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -40,9 +40,9 @@ public class NotifierTask implements Runnable {
         activeNotifications.stream()
                 .filter(an -> {
                     //TODO: Do it on database side
-                    return !an.getStatus().isDeleted()
-                            && an.getStatus().isActive()
-                            && an.getExecutionInfo().getNextExecutionTime() < currentTimestamp;
+                    return !an.isDeleted()
+                            && an.isActive()
+                            && an.getNextExecutionTime() < currentTimestamp;
                 })
                 .forEach(an -> {
                     SendMessage message = new SendMessage();
