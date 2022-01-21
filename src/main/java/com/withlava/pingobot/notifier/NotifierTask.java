@@ -2,7 +2,7 @@ package com.withlava.pingobot.notifier;
 
 import com.withlava.pingobot.bot.Pingobot;
 import com.withlava.pingobot.database.repository.NotificationRepository;
-import com.withlava.pingobot.database.repository.dto.Notification;
+import com.withlava.pingobot.database.repository.model.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

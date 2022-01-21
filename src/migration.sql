@@ -14,10 +14,10 @@ CREATE TABLE IF NOT EXISTS notifications
     marked_on_deletion BIGINT
 );
 
-CREATE TABLE IF NOT EXISTS notification_history
+CREATE TABLE IF NOT EXISTS notification_events
 (
     notification_id BIGINT,
     timestamp BIGINT,
-    action VARCHAR(255),
+    event_type VARCHAR(255),
     FOREIGN KEY (notification_id) REFERENCES notifications (id)
 )

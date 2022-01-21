@@ -1,4 +1,4 @@
-package com.withlava.pingobot.database.repository.dto;
+package com.withlava.pingobot.database.repository.model;
 
 
 @SuppressWarnings({"ConstructorWithTooManyParameters", "BooleanParameter"})

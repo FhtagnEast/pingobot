@@ -1,6 +1,6 @@
 package com.withlava.pingobot.database.repository;
 
-import com.withlava.pingobot.database.repository.dto.Notification;
+import com.withlava.pingobot.database.repository.model.Notification;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
