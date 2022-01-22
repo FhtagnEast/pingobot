@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS notifications
 (
     id BIGSERIAL PRIMARY KEY NOT NULL,
-    user_id BIGINT,
     chat_id BIGINT,
     description VARCHAR(255),
     active BOOLEAN,

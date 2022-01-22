@@ -57,7 +57,6 @@ public class UpdateHandler {
         notificationRepository.create(new Notification(
                 -1,
                 inputMessage.getFrom().getId(),
-                inputMessage.getChat().getId(),
                 HeaderUtils.removeHeader(inputMessage.getText()),
                 true,
                 false,
@@ -65,7 +64,6 @@ public class UpdateHandler {
                 DAY_IN_MILLIS,
                 System.currentTimeMillis() + DAY_IN_MILLIS,
                 null,
-                System.currentTimeMillis(),
                 null
         ));
         sendMessage.setText("Dummy notification with text " + inputMessage.getText() + " created");

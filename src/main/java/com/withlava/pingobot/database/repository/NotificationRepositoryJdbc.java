@@ -20,7 +20,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     public int create(Notification notification) {
         String sqlRequest = "INSERT INTO notifications (" +
                 "user_id," +
-                "chat_id," +
                 "description," +
                 "active," +
                 "deleted," +
@@ -28,23 +27,20 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "on_uncompleted_delay," +
                 "next_execution_time," +
                 "last_execution_time," +
-                "created," +
                 "marked_on_deletion) " +
-                "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+                "VALUES(?,?,?,?,?,?,?,?,?)";
 
         return jdbcTemplate.update(
                 sqlRequest,
                 notification.getUserId(),
-                notification.getChatId(),
                 notification.getDescription(),
                 notification.isActive(),
                 notification.isDeleted(),
-                notification.getOnCompletedDelay(),
-                notification.getOnUncompletedDelay(),
-                notification.getNextExecutionTime(),
-                notification.getLastExecutionTime(),
-                notification.getCreated(),
-                notification.getMarkedOnDeletion());
+                notification.getOnCompletedDelay().orElse(null),
+                notification.getOnUncompletedDelay().orElse(null),
+                notification.getNextExecutionTime().orElse(null),
+                notification.getLastExecutionTime().orElse(null),
+                notification.getMarkedOnDeletion().orElse(null));
     }
 
     @Override
@@ -52,7 +48,6 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     public int update(Notification notification) {
         String sqlRequest = "UPDATE notifications SET" +
                 "user_id=?," +
-                "chat_id=?," +
                 "description=?," +
                 "active=?," +
                 "deleted=?," +
@@ -60,23 +55,20 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "on_uncompleted_delay=?," +
                 "next_execution_time=?," +
                 "last_execution_time=?," +
-                "created=?," +
                 "marked_on_deletion=?) " +
                 "WHERE id=?)";
 
         return jdbcTemplate.update(
                 sqlRequest,
                 notification.getUserId(),
-                notification.getChatId(),
                 notification.getDescription(),
                 notification.isActive(),
                 notification.isDeleted(),
-                notification.getOnCompletedDelay(),
-                notification.getOnUncompletedDelay(),
-                notification.getNextExecutionTime(),
-                notification.getLastExecutionTime(),
-                notification.getCreated(),
-                notification.getMarkedOnDeletion());
+                notification.getOnCompletedDelay().orElse(null),
+                notification.getOnUncompletedDelay().orElse(null),
+                notification.getNextExecutionTime().orElse(null),
+                notification.getLastExecutionTime().orElse(null),
+                notification.getMarkedOnDeletion().orElse(null));
     }
 
     @Override

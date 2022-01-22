@@ -1,12 +1,13 @@
 package com.withlava.pingobot.database.repository.model;
 
 
+import java.util.Optional;
+
 @SuppressWarnings({"ConstructorWithTooManyParameters", "BooleanParameter"})
 public class Notification {
     private final long id;
 
     private final long userId;
-    private final long chatId;
 
     private final String description;
 
@@ -14,42 +15,37 @@ public class Notification {
     private final boolean deleted;
 
     //TODO: you can store cron schedule here
-    private final long onCompletedDelay; //add ms to name
-    private final long onUncompletedDelay;
+    private final Optional<Long> onCompletedDelay; //add ms to name
+    private final Optional<Long> onUncompletedDelay;
 
     //TODO: try extract this shit to kind of log
     // it depends on delay
-    private final long nextExecutionTime;
-    private final Long lastExecutionTime;
+    private final Optional<Long> nextExecutionTime;
+    private final Optional<Long> lastExecutionTime;
 
-    private final long created;
-    private final Long markedOnDeletion;
+    private final Optional<Long> markedOnDeletion;
 
     public Notification(
             long id,
             long userId,
-            long chatId,
             String description,
             boolean active,
             boolean deleted,
-            long onCompletedDelay,
-            long onUncompletedDelay,
-            long nextExecutionTime,
+            Long onCompletedDelay,
+            Long onUncompletedDelay,
+            Long nextExecutionTime,
             Long lastExecutionTime,
-            long created,
             Long markedOnDeletion) {
         this.id = id;
         this.userId = userId;
-        this.chatId = chatId;
         this.description = description;
         this.active = active;
         this.deleted = deleted;
-        this.onCompletedDelay = onCompletedDelay;
-        this.onUncompletedDelay = onUncompletedDelay;
-        this.nextExecutionTime = nextExecutionTime;
-        this.lastExecutionTime = lastExecutionTime;
-        this.created = created;
-        this.markedOnDeletion = markedOnDeletion;
+        this.onCompletedDelay = Optional.ofNullable(onCompletedDelay);
+        this.onUncompletedDelay = Optional.ofNullable(onUncompletedDelay);
+        this.nextExecutionTime = Optional.ofNullable(nextExecutionTime);
+        this.lastExecutionTime = Optional.ofNullable(lastExecutionTime);
+        this.markedOnDeletion = Optional.ofNullable(markedOnDeletion);
     }
 
     public long getId() {
@@ -58,10 +54,6 @@ public class Notification {
 
     public long getUserId() {
         return userId;
-    }
-
-    public long getChatId() {
-        return chatId;
     }
 
     public String getDescription() {
@@ -76,27 +68,23 @@ public class Notification {
         return deleted;
     }
 
-    public long getOnCompletedDelay() {
+    public Optional<Long> getOnCompletedDelay() {
         return onCompletedDelay;
     }
 
-    public long getOnUncompletedDelay() {
+    public Optional<Long> getOnUncompletedDelay() {
         return onUncompletedDelay;
     }
 
-    public long getNextExecutionTime() {
+    public Optional<Long> getNextExecutionTime() {
         return nextExecutionTime;
     }
 
-    public Long getLastExecutionTime() {
+    public Optional<Long> getLastExecutionTime() {
         return lastExecutionTime;
     }
 
-    public long getCreated() {
-        return created;
-    }
-
-    public Long getMarkedOnDeletion() {
+    public Optional<Long> getMarkedOnDeletion() {
         return markedOnDeletion;
     }
 }
