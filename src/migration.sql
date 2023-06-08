@@ -15,8 +15,14 @@ CREATE TABLE IF NOT EXISTS notifications
 
 CREATE TABLE IF NOT EXISTS notification_events
 (
-    notification_id BIGINT,
+    notification_id BIGINT PRIMARY KEY NOT NULL,
     timestamp BIGINT,
     event_type VARCHAR(255),
     FOREIGN KEY (notification_id) REFERENCES notifications (id)
+);
+
+CREATE TABLE IF NOT EXISTS users
+(
+    id BIGINT PRIMARY KEY NOT NULL,
+    username VARCHAR(255),
 )

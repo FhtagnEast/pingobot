@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface NotificationRepository {
 
-    int create(Notification notification);
+    long create(Notification notification);
 
-    int update(Notification notification);
+    void update(Notification notification);
 
     List<Notification> allActive();
 

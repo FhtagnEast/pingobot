@@ -48,6 +48,23 @@ public class Notification {
         this.markedOnDeletion = Optional.ofNullable(markedOnDeletion);
     }
 
+    private Notification(long id, long userId, String description, boolean active, boolean deleted, Optional<Long> onCompletedDelay, Optional<Long> onUncompletedDelay, Optional<Long> nextExecutionTime, Optional<Long> lastExecutionTime, Optional<Long> markedOnDeletion) {
+        this.id = id;
+        this.userId = userId;
+        this.description = description;
+        this.active = active;
+        this.deleted = deleted;
+        this.onCompletedDelay = onCompletedDelay;
+        this.onUncompletedDelay = onUncompletedDelay;
+        this.nextExecutionTime = nextExecutionTime;
+        this.lastExecutionTime = lastExecutionTime;
+        this.markedOnDeletion = markedOnDeletion;
+    }
+
+    private Notification() {
+
+    }
+
     public long getId() {
         return id;
     }
@@ -86,5 +103,20 @@ public class Notification {
 
     public Optional<Long> getMarkedOnDeletion() {
         return markedOnDeletion;
+    }
+
+    public Notification withId(long newId) {
+        return new Notification(
+                newId,
+                userId,
+                description,
+                active,
+                deleted,
+                onCompletedDelay,
+                onUncompletedDelay,
+                nextExecutionTime,
+                lastExecutionTime,
+                markedOnDeletion
+        )
     }
 }

@@ -1,10 +1,17 @@
 package com.withlava.pingobot.database.repository;
 
 import com.withlava.pingobot.database.repository.model.Notification;
+import org.springframework.jdbc.core.ArgumentPreparedStatementSetter;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -17,7 +24,7 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
     }
 
     @Override
-    public int create(Notification notification) {
+    public long create(Notification notification) {
         String sqlRequest = "INSERT INTO notifications (" +
                 "user_id," +
                 "description," +
@@ -30,17 +37,28 @@ public class NotificationRepositoryJdbc implements NotificationRepository {
                 "marked_on_deletion) " +
                 "VALUES(?,?,?,?,?,?,?,?,?)";
 
-        return jdbcTemplate.update(
-                sqlRequest,
-                notification.getUserId(),
-                notification.getDescription(),
-                notification.isActive(),
-                notification.isDeleted(),
-                notification.getOnCompletedDelay().orElse(null),
-                notification.getOnUncompletedDelay().orElse(null),
-                notification.getNextExecutionTime().orElse(null),
-                notification.getLastExecutionTime().orElse(null),
-                notification.getMarkedOnDeletion().orElse(null));
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(
+                connection -> {
+                    PreparedStatement preparedStatement = connection.prepareStatement(sqlRequest);
+                    ArgumentPreparedStatementSetter argumentPreparedStatementSetter = new ArgumentPreparedStatementSetter(new Object[]{
+                            notification.getUserId(),
+                            notification.getDescription(),
+                            notification.isActive(),
+                            notification.isDeleted(),
+                            notification.getOnCompletedDelay().orElse(null),
+                            notification.getOnUncompletedDelay().orElse(null),
+                            notification.getNextExecutionTime().orElse(null),
+                            notification.getLastExecutionTime().orElse(null),
+                            notification.getMarkedOnDeletion().orElse(null)
+                    });
+                    argumentPreparedStatementSetter.setValues(preparedStatement);
+                    return preparedStatement;
+                },
+                keyHolder);
+
+        return keyHolder.getKey().longValue();
     }
 
     @Override

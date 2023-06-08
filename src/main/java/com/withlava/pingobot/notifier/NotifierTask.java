@@ -40,11 +40,12 @@ public class NotifierTask implements Runnable {
                     //TODO: Do it on database side
                     return !an.isDeleted()
                             && an.isActive()
-                            && an.getNextExecutionTime() < currentTimestamp;
+                            && an.getNextExecutionTime().isPresent()
+                            && an.getNextExecutionTime().get() < currentTimestamp;
                 })
                 .forEach(an -> {
                     SendMessage message = new SendMessage();
-                    message.setChatId(an.getChatId());
+                    message.setChatId(an.getUserId());
                     message.setText(an.getDescription());
                     try {
                         //TODO: Send message could be extracted to a single class to make this logic unified with update handler
